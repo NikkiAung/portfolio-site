@@ -114,3 +114,16 @@ body {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
+
+.experience-section {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.job-entry {
+  margin-bottom: 2rem;
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border-radius: 8px;
+}
