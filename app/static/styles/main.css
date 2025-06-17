@@ -127,3 +127,16 @@ body {
   padding: 1rem;
   border-radius: 8px;
 }
+
+.hobbies-section {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.hobby-entry {
+  margin-bottom: 1.5rem;
+  background-color: #f0f0f0;
+  padding: 1rem;
+  border-radius: 8px;
+}
