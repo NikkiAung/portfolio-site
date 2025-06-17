@@ -22,7 +22,19 @@ def index():
             "description": " Partnered with UI/UX designers to translate Figma prototypes into a front-end landing page in code within 2 days"
         }
     ]
-    return render_template('index.html', work_experience=work_experience, title="MLH Fellow", url=os.getenv("URL"))
+    education = [
+        {
+            "institution": "City College of San Francisco",
+            "degree": "AS in Computer Science",
+            "duration": "Jan 2024 – Present"
+        },
+        {
+            "institution": "Yangon International School",
+            "degree": "High School Diploma (IGCSE)",
+            "duration": "2018 – 2022"
+        }
+    ]
+    return render_template('index.html', education=education, work_experience=work_experience, title="MLH Fellow", url=os.getenv("URL"))
 
 
 @app.route("/hobbies")

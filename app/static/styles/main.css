@@ -140,3 +140,16 @@ body {
   padding: 1rem;
   border-radius: 8px;
 }
+
+.education-section {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.education-entry {
+  margin-bottom: 1.5rem;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-left: 4px solid #007bff;
+}
