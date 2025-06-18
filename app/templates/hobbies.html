@@ -1,23 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>{{ title }}</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/main.css') }}"
+<section class="hobbies-section">
+  <h2 class="hobbies-title">My Hobbies</h2>
+  {% for hobby in hobbies %}
+  <div class="hobby-entry">
+    <h3>{{ hobby.name }}</h3>
+    <img
+      src="{{ url_for('static', filename='img/hobbies/' + hobby.image) }}"
+      alt="{{ hobby.name }}"
+      class="hobby-img"
     />
-  </head>
-  <body>
-    <h1>{{ title }}</h1>
-
-    <section class="hobbies-section">
-      {% for hobby in hobbies %}
-      <div class="hobby-entry">
-        <h2>{{ hobby.name }}</h2>
-        <p>{{ hobby.description }}</p>
-      </div>
-      {% endfor %}
-    </section>
-  </body>
-</html>
+    <p>{{ hobby.description }}</p>
+  </div>
+  {% endfor %}
+</section>

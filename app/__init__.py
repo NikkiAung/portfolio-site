@@ -40,8 +40,8 @@ def index():
 @app.route("/hobbies")
 def hobbies():
     hobbies_list = [
-        {"name": "Photography", "description": "I enjoy capturing cityscapes and nature scenes."},
-        {"name": "Touching Grass", "description": "I love taking a visit to local garden."},
-        {"name": "Hiking", "description": "Exploring trails and being in nature recharges me."}
+        {"name": "Photography", "description": "I enjoy capturing cityscapes and nature scenes.",  "image": "photography.jpg"},
+        {"name": "Touching Grass", "description": "I love taking a visit to local garden.", "image": "touching-grass.jpg"},
+        {"name": "Hiking", "description": "Exploring trails and being in nature recharges me.", "image": "hiking.jpg"}
     ]
     return render_template("hobbies.html", hobbies=hobbies_list, title="My Hobbies")
