@@ -146,7 +146,6 @@ body {
   border-radius: 8px;
 }
 
-
 .education-section {
   padding: 2rem;
   max-width: 800px;
@@ -158,6 +157,7 @@ body {
   background-color: #f9f9f9;
   padding: 1rem;
   border-left: 4px solid #007bff;
+}
 
 .hobby-entry {
   display: flex;
