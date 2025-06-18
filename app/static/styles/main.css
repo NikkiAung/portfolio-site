@@ -205,3 +205,15 @@ body {
     height: 100px;
   }
 }
+
+.map-section {
+  padding: 2rem;
+  max-width: 900px;
+  margin: auto;
+}
+
+.map-container {
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
