@@ -25,13 +25,13 @@ def index():
     education = [
         {
             "institution": "City College of San Francisco",
-            "degree": "AS in Computer Science",
-            "duration": "Jan 2024 – Present"
+            "degree": "BS in Computer Science",
+            "duration": "Jan 2024 - Present"
         },
         {
-            "institution": "Yangon International School",
+            "institution": "ALBA",
             "degree": "High School Diploma (IGCSE)",
-            "duration": "2018 – 2022"
+            "duration": "2018 - 2022"
         }
     ]
     return render_template('index.html', education=education, work_experience=work_experience, title="MLH Fellow", url=os.getenv("URL"))
