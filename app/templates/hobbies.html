@@ -9,6 +9,7 @@
     />
   </head>
   <body>
+    {% extends "base.html" %} {% block content %}
     <h1>{{ title }}</h1>
 
     <section class="hobbies-section">
@@ -19,5 +20,6 @@
       </div>
       {% endfor %}
     </section>
+    {% endblock %}
   </body>
 </html>
