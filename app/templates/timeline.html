@@ -1,0 +1,185 @@
+{% extends "base.html" %} {% block content %}
+<div class="timeline-container">
+  <h1 class="timeline-title">{{ title }}</h1>
+
+  <!-- Timeline Post Form -->
+  <div class="timeline-form-container">
+    <h2>Create a New Timeline Post</h2>
+    <form id="timelineForm" class="timeline-form">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea
+          id="content"
+          name="content"
+          rows="4"
+          required
+          placeholder="Share your thoughts..."
+        ></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Post to Timeline</button>
+    </form>
+  </div>
+
+  <!-- Timeline Posts Display -->
+  <div class="timeline-posts-container">
+    <h2>Timeline Posts</h2>
+    <div id="timelinePosts" class="timeline-posts">
+      <!-- Posts will be loaded here dynamically -->
+    </div>
+  </div>
+</div>
+
+<script>
+  // Function to generate Gravatar URL
+  function getGravatarUrl(email) {
+    const hash = CryptoJS.MD5(email.toLowerCase().trim()).toString();
+    return `https://www.gravatar.com/avatar/${hash}?s=50&d=identicon`;
+  }
+
+  // Function to format date
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+  // Function to create a timeline post element
+  function createTimelinePostElement(post) {
+    const postElement = document.createElement("div");
+    postElement.className = "timeline-post";
+    postElement.innerHTML = `
+    <div class="post-header">
+      <img src="${getGravatarUrl(
+        post.email
+      )}" alt="Profile" class="profile-image">
+      <div class="post-info">
+        <h3 class="post-author">${post.name}</h3>
+        <p class="post-date">${formatDate(post.created_at)}</p>
+      </div>
+    </div>
+    <div class="post-content">
+      <p>${post.content}</p>
+    </div>
+  `;
+    return postElement;
+  }
+
+  // Function to load and display timeline posts
+  async function loadTimelinePosts() {
+    try {
+      const response = await fetch("/api/timeline_post");
+      const data = await response.json();
+
+      const postsContainer = document.getElementById("timelinePosts");
+      postsContainer.innerHTML = "";
+
+      if (data.timeline_posts && data.timeline_posts.length > 0) {
+        data.timeline_posts.forEach((post) => {
+          const postElement = createTimelinePostElement(post);
+          postsContainer.appendChild(postElement);
+        });
+      } else {
+        postsContainer.innerHTML =
+          '<p class="no-posts">No timeline posts yet. Be the first to share!</p>';
+      }
+    } catch (error) {
+      console.error("Error loading timeline posts:", error);
+      document.getElementById("timelinePosts").innerHTML =
+        '<p class="error">Error loading timeline posts.</p>';
+    }
+  }
+
+  // Function to handle form submission
+  async function handleFormSubmit(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const submitBtn = event.target.querySelector(".submit-btn");
+    const originalText = submitBtn.textContent;
+
+    try {
+      submitBtn.textContent = "Posting...";
+      submitBtn.disabled = true;
+
+      const response = await fetch("/api/timeline_post", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const newPost = await response.json();
+
+        // Add the new post to the top of the timeline
+        const postsContainer = document.getElementById("timelinePosts");
+        const postElement = createTimelinePostElement(newPost);
+
+        // Remove "no posts" message if it exists
+        const noPostsMessage = postsContainer.querySelector(".no-posts");
+        if (noPostsMessage) {
+          noPostsMessage.remove();
+        }
+
+        // Insert new post at the top
+        postsContainer.insertBefore(postElement, postsContainer.firstChild);
+
+        // Reset form
+        event.target.reset();
+
+        // Show success message
+        showMessage("Timeline post created successfully!", "success");
+      } else {
+        throw new Error("Failed to create timeline post");
+      }
+    } catch (error) {
+      console.error("Error creating timeline post:", error);
+      showMessage("Error creating timeline post. Please try again.", "error");
+    } finally {
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }
+  }
+
+  // Function to show messages
+  function showMessage(message, type) {
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `message ${type}`;
+    messageDiv.textContent = message;
+
+    const container = document.querySelector(".timeline-container");
+    container.insertBefore(messageDiv, container.firstChild);
+
+    setTimeout(() => {
+      messageDiv.remove();
+    }, 3000);
+  }
+
+  // Event listeners
+  document.addEventListener("DOMContentLoaded", function () {
+    // Load existing timeline posts
+    loadTimelinePosts();
+
+    // Add form submit event listener
+    const form = document.getElementById("timelineForm");
+    form.addEventListener("submit", handleFormSubmit);
+  });
+</script>
+
+<!-- Include CryptoJS for MD5 hashing (for Gravatar) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+{% endblock %}
