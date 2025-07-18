@@ -18,12 +18,14 @@ class TestTimelinePost(unittest.TestCase):
         test_db.close()
 
     def test_timeline_post(self):
+        # Test creation of posts through database
         first_post = TimelinePost.create(name='William', email='william@example.com', content='Hello world, I\'m William!')
         assert first_post.id == 1
 
         second_post = TimelinePost.create(name='Aung', email='aung@example.com', content='Hello world, I\'m Aung!')
         assert second_post.id == 2
 
+        # Test posts successfully added to database
         retrieved_first_post = TimelinePost.get_by_id(1)
         assert retrieved_first_post.name == 'William'
         assert retrieved_first_post.email == 'william@example.com'
