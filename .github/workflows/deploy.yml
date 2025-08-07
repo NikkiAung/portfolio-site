@@ -32,7 +32,7 @@ jobs:
         run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && chmod +x ./redeploy-site.sh && ./redeploy-site.sh'
 
       - name: Print Docker container status
-        run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && docker-compose ps'
+        run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && docker compose ps'
 
       - name: Notify Discord on Success
         if: success()
